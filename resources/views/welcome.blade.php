@@ -40,7 +40,7 @@
                         </div>
                         <div id="custom" class="tab-pane fade">
                             <h3 class="text-center">Custom Solution</h3>
-                            <form action="{{route('mail_queue')}}" method="POST">
+                            <form action="{{route('custom_solution')}}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
@@ -83,8 +83,22 @@
                             </form>
                         </div>
                         <div id="dispatch" class="tab-pane fade">
-                            <h3>Menu 2</h3>
-                            <p>Some content in menu 2.</p>
+                            <h3 class="text-center">Send With Dispatch</h3>
+                            <form action="{{route('mail_dispatch')}}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="email" type="email" class="form-control" name="email" value="{{ env('MAIL_TO') }}" required autofocus>
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Send') }}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

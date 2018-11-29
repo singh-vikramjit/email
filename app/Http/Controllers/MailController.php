@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Mail;
-use Illuminate\Http\Request;
-use App\Mail\TestMail;
-
-use Session;
+use View;
 use Artisan;
+use Session;
 use App\User;
+use App\CustomMail;
+use App\Mail\TestMail;
+use App\Jobs\DispatchMail;
+use Illuminate\Http\Request;
 
 class MailController extends Controller
 {
@@ -48,11 +50,62 @@ class MailController extends Controller
 
         $email = $request->email ?? env('MAIL_TO');
 
+        $when = now()->addMinutes(rand(10,999));
+
+        $mailTemplate  = View::make('email.mailExample');
+        $data = base64_encode($mailTemplate->render());
+
+        $insertArray = [];
+        $insertArray['email'] = $email;
+        $insertArray['send_at'] = $when;
+        $insertArray['data'] = $data;
+        $insertArray['subject'] = 'Test Subject';
+        $insertArray['status'] = 0;
+
+        $res = CustomMail::create($insertArray);
+
         $flash['status'] = 'success';
-        $flash['message'] = 'Email Sent';
-	    
+        $flash['message'] = 'You will receive the mail on '.$when;
+		
+		if(!$res){
+			$flash['status'] = 'danger';
+        	$flash['message'] = 'Something went wrong!';
+		}
+
 	    return redirect('/')->with($flash);
 
+    }
+
+    public function send_custom_mail(){
+
+    	$sendingData = CustomMail::whereStatus(0)
+    					->whereDate('created_at', '<=' , now())
+    					->get()->toArray();
+
+    	if(count($sendingData)){
+
+    		$ids = [];
+
+    		foreach ($sendingData as $key => $value) {
+    			
+    			$html = base64_decode($value['data']);
+
+				Mail::send(array(), array(), function ($message) use ($html,$value) {
+				  $message->to($value['email'])
+				    ->subject($value['subject'])
+				    ->setBody($html, 'text/html');
+				});
+
+				 if (!Mail::failures()) {
+			        $ids[] = $value['id']; 
+			    }
+    		}
+
+    		// update the status of sent mails
+    		if(count($ids)){
+    			CustomMail::whereIn('id', $ids)->update(['status' => 1]);
+    		}
+    	}
     }
 
 	/**
@@ -76,4 +129,23 @@ class MailController extends Controller
 
     }
 
+    /**
+	* Send mail to user with command.
+	*
+	* @return mixed
+	*/
+
+    public function mail_dispatch(Request $request)
+    {   
+
+    	if( dispatch(new DispatchMail()) ) {
+    		$flash['status'] = 'success';
+        	$flash['message'] = 'Email Dispatched';
+    	}else{
+        	$flash['status'] = 'success';
+        	$flash['message'] = 'Email Sent';
+    	}
+	    
+	    return redirect('/')->with($flash);
+    }
 }
