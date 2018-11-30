@@ -17,7 +17,7 @@ class TestMail extends Mailable
      *
      * @return void
      */
-    public function __construct(?array $request )
+    public function __construct(array $request =null)
     {
        $this->request = $request;
     }
