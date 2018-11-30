@@ -29,7 +29,8 @@ jobs:
       - run: composer install -n --prefer-dist
       - run: wget http://getcomposer.org/composer.phar
       - run: php composer.phar install
-
+      - run: composer global require phpunit/phpunit
+      - run: composer global require phpunit/dbunit
       - save_cache:
           paths:
             - ./vendor
