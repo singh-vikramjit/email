@@ -28,7 +28,7 @@ class MailController extends Controller
         Mail::to($email)->queue( new TestMail() );
 
         $flash['status'] = 'success';
-        $flash['message'] = 'Email Sent';
+        $flash['message'] = 'Email Sent !';
 
         if (Mail::failures()) {
 	        $flash['status'] = 'danger';
