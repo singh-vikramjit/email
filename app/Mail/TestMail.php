@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use Illuminate\Http\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -16,9 +17,9 @@ class TestMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(?array $request )
     {
-        //
+       $this->request = $request;
     }
 
     /**
@@ -27,7 +28,11 @@ class TestMail extends Mailable
      * @return $this
      */
     public function build()
-    {
-        return $this->view('email.mailExample');
+    {   
+        $sbuject    = $this->request['subject'] ?? "Test mail!";
+        $view       = $this->request['view'] ?? 'email.mailExample';
+
+        return $this->view($view)
+                    ->subject($sbuject);
     }
 }

@@ -78,7 +78,7 @@
         
         <main class="py-4">
             @if (session('status'))
-                <div class="alert alert-dismisable alert-{{ session('status') }}">
+                <div class="alert alert-dismissable alert-{{ session('status') }}">
                     {{ session('message') }}
                 </div>
             @endif

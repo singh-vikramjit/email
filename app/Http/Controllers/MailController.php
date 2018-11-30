@@ -36,7 +36,6 @@ class MailController extends Controller
 	    }
 	    
 	    return redirect('/')->with($flash);
-
     }
 
 	/**
@@ -47,7 +46,6 @@ class MailController extends Controller
 
     public function custom_solution(Request $request)
     {   
-
         $email = $request->email ?? env('MAIL_TO');
 
         $when = now()->addMinutes(rand(10,999));
@@ -73,7 +71,6 @@ class MailController extends Controller
 		}
 
 	    return redirect('/')->with($flash);
-
     }
 
     public function send_custom_mail(){
@@ -116,7 +113,6 @@ class MailController extends Controller
 
     public function mail_command(Request $request)
     {   
-
         $email[] = $request->email ?? env('MAIL_TO');
 
         $exitCode = Artisan::call('email:send', [
@@ -126,7 +122,6 @@ class MailController extends Controller
         $flash['message'] = 'Email Sent';
 	    
 	    return redirect('/')->with($flash);
-
     }
 
     /**
@@ -137,13 +132,16 @@ class MailController extends Controller
 
     public function mail_dispatch(Request $request)
     {   
-
-    	if( dispatch(new DispatchMail()) ) {
+    	$data = [];
+        $data['email'] 		= $request->email ?? env('MAIL_TO');
+        $data['subject'] 	= 'Test dispatch!';
+          
+    	if( dispatch(new DispatchMail($data)) ) {
     		$flash['status'] = 'success';
         	$flash['message'] = 'Email Dispatched';
     	}else{
-        	$flash['status'] = 'success';
-        	$flash['message'] = 'Email Sent';
+        	$flash['status'] = 'danger';
+        	$flash['message'] = 'Email not Sent';
     	}
 	    
 	    return redirect('/')->with($flash);

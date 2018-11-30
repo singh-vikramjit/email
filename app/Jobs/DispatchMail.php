@@ -17,14 +17,16 @@ class DispatchMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $request = [];
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(?array $data )
     {
-        //
+        $this->request = $data ?? [];
     }
 
     /**
@@ -32,19 +34,18 @@ class DispatchMail implements ShouldQueue
      *
      * @return void
      */
-    public function handle(Request $request)
-    {   
+    //Request $request
+    public function handle()
+    {  
+        $data = $this->request;
+        $email = $data['email'] ?? env('MAIL_TO');
 
-        $data = [];
-        $data['email'] = env(MAIL_TO);
-        $data['subject'] = 'Test dispatch!';
+        Mail::to($email)
+        ->send( new TestMail($data) );
 
-        Mail::to('vikramjitsingh@ucreate.co.in')->send( new TestMail() );
-
-        if (Mail::failures()) {
-            return false;    
+        if (!Mail::failures()) {
+            return true; 
         }
-
-        return true;
+        return false;
     }
 }

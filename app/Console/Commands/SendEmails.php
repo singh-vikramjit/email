@@ -46,10 +46,8 @@ class SendEmails extends Command
      */
     public function handle()
     {   
-
         $email = $this->argument('email');
         
-        //dd( $email);
         Mail::send('email.mailExample', [] , function($message) use ($email) {
             
             if(count($email) > 1){
