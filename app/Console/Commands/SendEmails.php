@@ -12,7 +12,11 @@ class SendEmails extends Command
      *
      * @var string
      */
-    protected $signature = 'email:send {email*}';
+    //protected $signature = 'email:send {email*} {--subject=}';
+    
+    protected $signature = 'email:send
+                            {email* : The email address of the user}
+                            {--s|subject= : Subject of the Email}';
 
     /**
      * The console command description.
@@ -47,8 +51,10 @@ class SendEmails extends Command
     public function handle()
     {   
         $email = $this->argument('email');
-        
-        Mail::send('email.mailExample', [] , function($message) use ($email) {
+
+        $subject= $this->option('subject') ?? "Test Mail From Command";
+
+        Mail::send('email.mailExample', [] , function($message) use ($email , $subject) {
             
             if(count($email) > 1){
                 $bcc = $email;
@@ -57,7 +63,7 @@ class SendEmails extends Command
             }
 
             $message->to($email);
-            $message->subject('Test Description');
+            $message->subject($subject);
         });  
     }
 
