@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use Illuminate\Support\Facades\Hash;
+use App\CustomMail;
 
 class HomeController extends Controller
 {
@@ -32,16 +31,15 @@ class HomeController extends Controller
     {
 
         $start = microtime(true);
-        for ($i = 0; $i < 9000; $i++) {
+        for ($i = 0; $i < 5000; $i++) {
             
-            User::create([
-                'name' => 'abc_'.$i,
-                'username' => 'abc_'.$i,
+            CustomMail::create([
+                'data' => 'abc_'.$i,
+                'subject' => 'abc_'.$i,
                 'email' => 'abc_'.$i.'@uds.com',
-                'password' => Hash::make('123456'),
+                'send_at' => now(),
             ]);
 
-        }
         echo 'Time needed: ' . (microtime(true) - $start) . '.';
 
         dd('here');
