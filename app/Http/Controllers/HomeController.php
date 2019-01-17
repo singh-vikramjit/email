@@ -38,6 +38,7 @@ class HomeController extends Controller
                 'subject' => 'abc_'.$i,
                 'email' => 'abc_'.$i.'@uds.com',
                 'send_at' => now(),
+                'status' => 0
             ]);
         }
 
