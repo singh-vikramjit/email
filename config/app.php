@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Jenssegers\Rollbar\RollbarServiceProvider::class,
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
         /*
          * Application Service Providers...

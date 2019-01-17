@@ -48,3 +48,7 @@ Route::prefix('admin')->group(function() {
 	Route::get('/users', 'AdminController@admin_users')->middleware('auth:admin')->name('admin.users');
 
 });
+
+
+
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
