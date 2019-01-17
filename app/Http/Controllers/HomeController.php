@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\CustomMail;
+use App\Jobs\RunTest
 
 class HomeController extends Controller
 {
@@ -29,21 +29,6 @@ class HomeController extends Controller
 
     public function testMethod()
     {
-
-        $start = microtime(true);
-        for ($i = 0; $i < 5000; $i++) {
-            
-            CustomMail::create([
-                'data' => 'abc_'.$i,
-                'subject' => 'abc_'.$i,
-                'email' => 'abc_'.$i.'@uds.com',
-                'send_at' => now(),
-                'status' => 0
-            ]);
-        }
-
-        echo 'Time needed: ' . (microtime(true) - $start) . '.';
-
-        dd('here');
+        RunTest::dispatch();
     }
 }
