@@ -39,6 +39,7 @@ class HomeController extends Controller
                 'email' => 'abc_'.$i.'@uds.com',
                 'send_at' => now(),
             ]);
+        }
 
         echo 'Time needed: ' . (microtime(true) - $start) . '.';
 
