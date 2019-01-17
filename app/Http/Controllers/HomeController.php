@@ -36,6 +36,7 @@ class HomeController extends Controller
             
             User::create([
                 'name' => 'abc_'.$i,
+                'username' => 'abc_'.$i,
                 'email' => 'abc_'.$i.'@uds.com',
                 'password' => Hash::make('123456'),
             ]);
