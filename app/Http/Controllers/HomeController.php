@@ -29,6 +29,23 @@ class HomeController extends Controller
 
     public function testMethod()
     {
-        RunTest::dispatch();
+        //RunTest::dispatch();
+
+        $start = microtime(true);
+        for ($i = 0; $i < 1000; $i++) {
+            
+            CustomMail::create([
+                'data' => 'abc_'.$i,
+                'subject' => 'abc_'.$i,
+                'email' => 'abc_'.$i.'@uds.com',
+                'send_at' => now(),
+                'status' => 0
+            ]);
+        }
+
+        echo 'Time needed: ' . (microtime(true) - $start) . '.';
+        \Log::info('Time needed: ' . (microtime(true) - $start) . '.');
+
+        dd('here');
     }
 }

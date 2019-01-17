@@ -31,7 +31,7 @@ class RunTest implements ShouldQueue
     public function handle()
     {
         $start = microtime(true);
-        for ($i = 0; $i < 5000; $i++) {
+        for ($i = 0; $i < 1000; $i++) {
             
             CustomMail::create([
                 'data' => 'abc_'.$i,
