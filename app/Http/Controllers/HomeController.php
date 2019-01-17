@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Jobs\RunTest;
+use App\CustomMail;
+
 
 class HomeController extends Controller
 {
