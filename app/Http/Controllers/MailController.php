@@ -27,6 +27,15 @@ class MailController extends Controller
 
         Mail::to($email)->queue( new TestMail() );
 
+        /*
+        # we can also send the mail to specific time with Queue 
+        # for this we can use "later" method
+        #    
+        #   $when = now()->addMinutes(30); // or specific date/time
+        #
+        #   Mail::to(‘example@example.com’)->later( $when  , new TestMail() );
+        */
+
         $flash['status'] = 'success';
         $flash['message'] = 'Email Sent !';
 

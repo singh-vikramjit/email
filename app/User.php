@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'username','email','password','image',
     ];
 
     /**
@@ -27,4 +27,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    const ADMIN_TYPE = 'admin';
+
+    const USER_TYPE = 'default';
+
+    public function isAdmin()    {        
+        return $this->type === self::ADMIN_TYPE;    
+    }
+
+    public function getImageAttribute($image){
+        return ($image) ? asset( '/uploads/'.$image ,env('REDIRECT_HTTPS') ) : defaultImage(); 
+    }
 }

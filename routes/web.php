@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('UploadFile');
 });
 
 Auth::routes();
@@ -24,3 +24,24 @@ Route::post('/custom_solution', 'MailController@custom_solution')->name('custom_
 Route::post('/mail_command', 'MailController@mail_command')->name('mail_command');
 Route::get('/send_custom_mail', 'MailController@send_custom_mail')->name('send_custom_mail');
 Route::post('/mail_dispatch', 'MailController@mail_dispatch')->name('mail_dispatch');
+
+Route::match(['get','post'],'/uploadFile', 'UploadMediaController@uploadFile')->name('uploadFile');
+
+
+/*
+|-----------------------------------------------------
+| Admin Routes
+|------------------------------------------------------
+*/
+
+Route::prefix('admin')->group(function() {
+
+	Route::match(['get','post'],'/', 'AdminController@admin_login')->middleware('guest.admin')->name('admin');
+	Route::match(['get','post'],'/login', 'AdminController@admin_login')->middleware('guest.admin')->name('admin.login');
+	Route::get('/logout','AdminController@admin_logout')->middleware('auth:admin')->name('admin.logout');
+	
+	Route::match(['get','post'],'/dashboard', 'AdminController@admin_dashboard')->middleware('auth:admin')->name('admin.dashboard');
+
+	Route::get('/users', 'AdminController@admin_users')->middleware('auth:admin')->name('admin.users');
+
+});
