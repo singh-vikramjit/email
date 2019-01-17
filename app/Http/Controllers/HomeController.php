@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -24,5 +25,23 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    } 
+
+    public function testMethod()
+    {
+
+        $start = microtime(true);
+        for ($i = 0; $i < 9000; $i++) {
+            
+            User::create([
+                'name' => 'abc_'.$i,
+                'email' => 'abc_'.$i.'@uds.com',
+                'password' => Hash::make('123456'),
+            ]);
+
+        }
+        echo 'Time needed: ' . (microtime(true) - $start) . '.';
+
+        dd('here');
     }
 }

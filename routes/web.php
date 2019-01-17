@@ -28,6 +28,9 @@ Route::post('/mail_dispatch', 'MailController@mail_dispatch')->name('mail_dispat
 Route::match(['get','post'],'/uploadFile', 'UploadMediaController@uploadFile')->name('uploadFile');
 
 
+Route::match(['get','post'],'/testing', 'HomeController@testMethod')->name('testing');
+
+
 /*
 |-----------------------------------------------------
 | Admin Routes
