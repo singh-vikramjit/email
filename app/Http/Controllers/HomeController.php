@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Jobs\RunTest
+use App\Jobs\RunTest;
 
 class HomeController extends Controller
 {
