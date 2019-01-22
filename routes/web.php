@@ -38,17 +38,15 @@ Route::match(['get','post'],'/testing', 'HomeController@testMethod')->name('test
 */
 
 Route::prefix('admin')->group(function() {
-
 	Route::match(['get','post'],'/', 'AdminController@admin_login')->middleware('guest.admin')->name('admin');
 	Route::match(['get','post'],'/login', 'AdminController@admin_login')->middleware('guest.admin')->name('admin.login');
 	Route::get('/logout','AdminController@admin_logout')->middleware('auth:admin')->name('admin.logout');
 	
 	Route::match(['get','post'],'/dashboard', 'AdminController@admin_dashboard')->middleware('auth:admin')->name('admin.dashboard');
-
 	Route::get('/users', 'AdminController@admin_users')->middleware('auth:admin')->name('admin.users');
 
 });
 
 
-
+Route::get('db', 'DbStatsController@runDatabaseQueries');
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
