@@ -62,10 +62,10 @@ class DbStatsController extends Controller
             DB::connection('temp')->enableQueryLog();
            
             //$conn->select($this->runInsertQueries(10, $database->id)); 
-            $this->runInsertQueries(1000, $database->id); 
-            $this->runSelectQueries(1000, $database->id); 
-            $this->runUpdateQueries(2, $database->id); 
-            $this->runDeleteQueries(2, $database->id); 
+            $this->runInsertQueries(5000, $database->id); 
+            $this->runSelectQueries(5000, $database->id); 
+            $this->runUpdateQueries(10, $database->id); 
+            $this->runDeleteQueries(10, $database->id); 
             $this->closeTempConection();
 
             // $this->runInsertQueries(1000);
