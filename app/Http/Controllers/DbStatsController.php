@@ -64,8 +64,8 @@ class DbStatsController extends Controller
             //$conn->select($this->runInsertQueries(10, $database->id)); 
             $this->runInsertQueries(1000, $database->id); 
             $this->runSelectQueries(1000, $database->id); 
-            $this->runUpdateQueries(1000, $database->id); 
-            $this->runDeleteQueries(1000, $database->id); 
+            $this->runUpdateQueries(2, $database->id); 
+            $this->runDeleteQueries(2, $database->id); 
             $this->closeTempConection();
 
             // $this->runInsertQueries(1000);
@@ -117,7 +117,7 @@ class DbStatsController extends Controller
     	$start = microtime(true);
         $raw_query = '';
         for ($i = 0; $i < $query_count; $i++) {
-            Test::on('temp')->where('status', false)->limit(500)->delete();     
+            Test::on('temp')->where('status', true)->limit(500)->delete();     
         }
         $end = (microtime(true));
         $query = DB::connection('temp')->getQueryLog();
