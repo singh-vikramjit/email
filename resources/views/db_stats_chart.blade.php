@@ -1,45 +1,133 @@
-@extends('layouts.app')
+@extends('layouts.chart')
 @section('content')
-  <canvas id="myChart" width="400" height="400"></canvas>
+<div style="width:50%;" class="pull-left">
+  <canvas id="canvas"></canvas>
+</div>
+
+<div style="width:50%;" class="pull-left">
+  <canvas id="canvas1"></canvas>
+</div>
+
+<br><hr><br>
+
+<div style="width:50%;" class="pull-left">
+  <canvas id="canvas2"></canvas>
+</div>
+<div style="width:50%;" class="pull-left">
+  <canvas id="canvas3"></canvas>
+</div>
 
 <script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
+
+// insert data
+var heroku = <?php echo json_encode($heroku['insert']);?>;
+var uds = <?php echo json_encode($uds['insert']);?>;
+var query = <?php echo json_encode($db_query[0]);?>;
+
+// insert data
+var heroku_s = <?php echo json_encode($heroku['select']);?>;
+var uds_s = <?php echo json_encode($uds['select']);?>;
+var query_s = <?php echo json_encode($db_query[1]);?>;
+
+// insert data
+var heroku_u = <?php echo json_encode($heroku['update']);?>;
+var uds_u = <?php echo json_encode($uds['update']);?>;
+var query_u = <?php echo json_encode($db_query[2]);?>;
+
+// delete data
+var heroku_d = <?php echo json_encode($heroku['delete']);?>;
+var uds_d = <?php echo json_encode($uds['delete']);?>;
+var query_d = <?php echo json_encode($db_query[3]);?>;
+
+createChart(heroku , uds , query);    
+createChart(heroku_s , uds_s , query_s,'canvas1');    
+createChart(heroku_u , uds_u , query_u,'canvas2');    
+createChart(heroku_d , uds_d , query_d,'canvas3');    
+
+function createChart( heroku , uds , query ,id = 'canvas' ){
+
+    var chartColors = {
+      red: 'rgb(255, 99, 132)',
+      orange: 'rgb(255, 159, 64)',
+      yellow: 'rgb(255, 205, 86)',
+      green: 'rgb(75, 192, 192)',
+      blue: 'rgb(54, 162, 235)',
+      purple: 'rgb(153, 102, 255)',
+      grey: 'rgb(231,233,237)'
+    };
+
+    var randomScalingFactor = function() {
+      return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
     }
-});
+    var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var config = {
+      type: 'line',
+      data: {
+        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+        datasets: [{
+          label: "Heroku",
+          backgroundColor: chartColors.red,
+          borderColor: chartColors.red,
+          data: heroku,
+          fill: false,
+        }, {
+          label: "UDS",
+          fill: false,
+          backgroundColor: chartColors.blue,
+          borderColor: chartColors.blue,
+          data: uds,
+        }]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: query,
+        },
+        tooltips: {
+          mode: 'label',
+
+          itemSort: function(a, b) {
+            return b.datasetIndex - a.datasetIndex
+          },
+
+        },
+        hover: {
+          mode: 'nearest',
+          intersect: true
+        },
+        scales: {
+          xAxes: [{
+            display: true,
+            ticks: {
+              userCallback: function(label, index, labels) {
+                if (typeof label === "string") {
+                  return label.substring(0, 1)
+                }
+                return label
+
+              },
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Value'
+            }
+          }]
+        }
+      }
+    };
+
+
+    var ctx = document.getElementById(id).getContext("2d");
+    window.myLine = new Chart(ctx, config);
+}
 </script>
 
 @endsection
