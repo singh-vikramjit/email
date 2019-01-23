@@ -49,4 +49,5 @@ Route::prefix('admin')->group(function() {
 
 
 Route::get('db', 'DbStatsController@runDatabaseQueries');
+Route::get('db_chart', 'DbStatsController@createDbCharts');
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

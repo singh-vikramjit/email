@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 use Redirect;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 use Config;
 use Illuminate\Support\Facades\Hash;
 use App\DbStats;
@@ -133,5 +134,18 @@ class DbStatsController extends Controller
             'end_time' => $end,
             'time_taken' => $end - $start,
         ]);
+    }
+
+    public function createDbCharts() {
+        $db_query = array_unique(DbStats::pluck('query')->toArray());
+        $heroku['insert'] = DbStats::where('db_id', 1)->where('query', 'like', '%insert%')->pluck('time_taken');
+        $heroku['select'] = DbStats::where('db_id', 1)->where('query', 'like', '%select%')->pluck('time_taken');
+        $heroku['delete'] = DbStats::where('db_id', 1)->where('query', 'like', '%delete%')->pluck('time_taken');
+        $heroku['update'] = DbStats::where('db_id', 1)->where('query', 'like', '%update%')->pluck('time_taken');
+        $uds['insert'] = DbStats::where('db_id', 2)->where('query', 'like', '%insert%')->pluck('time_taken');
+        $uds['select'] = DbStats::where('db_id', 2)->where('query', 'like', '%select%')->pluck('time_taken');
+        $uds['delete'] = DbStats::where('db_id', 2)->where('query', 'like', '%delete%')->pluck('time_taken');
+        $uds['update'] = DbStats::where('db_id', 2)->where('query', 'like', '%update%')->pluck('time_taken');
+        return view('db_stats_chart', compact('heroku', 'uds', 'db_query'));
     }
 }
