@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 use Redirect;
 use Carbon\Carbon;
-use Maatwebsite\Excel\Facades\Excel;
+//use Maatwebsite\Excel\Facades\Excel;
 use Config;
 use Illuminate\Support\Facades\Hash;
 use App\DbStats;
