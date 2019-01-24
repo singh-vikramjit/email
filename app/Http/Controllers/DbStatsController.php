@@ -146,8 +146,8 @@ class DbStatsController extends Controller
         }
         $_result = json_encode($result) ?? '';
         $_query = json_encode($query) ?? '';
-        $range = (!empty($result[1]['insert'])) ? count($result[1]['insert']) : 0;
-        $labels = json_encode(range(0, $range));
+        $range = (!empty($result[1]['insert'])) ? count($result[1]['insert']) : 1;
+        $labels = json_encode(range(1, $range));
         return view('db_stats_chart', compact('labels','_result','_query'));
     }
 
