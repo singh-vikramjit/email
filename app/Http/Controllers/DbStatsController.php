@@ -137,6 +137,7 @@ class DbStatsController extends Controller
     }
 
     public function createDbCharts() {
+
         $test_res = $this->ObjectToArray(DB::select("select time_taken, db_id, query,TRIM(SUBSTR(query,1,POSITION(' ' IN query))) as query_type from db_stats"));
         $result = $query = [];   
         foreach ($test_res as $key => $value) {
