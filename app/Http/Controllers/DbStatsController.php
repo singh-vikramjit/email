@@ -146,6 +146,7 @@ class DbStatsController extends Controller
         $uds['select'] = DbStats::where('db_id', 2)->where('query', 'like', '%select%')->pluck('time_taken');
         $uds['delete'] = DbStats::where('db_id', 2)->where('query', 'like', '%delete%')->pluck('time_taken');
         $uds['update'] = DbStats::where('db_id', 2)->where('query', 'like', '%update%')->pluck('time_taken');
-        return view('db_stats_chart', compact('heroku', 'uds', 'db_query'));
+        $labels = range(1, count($heroku['insert']));
+        return view('db_stats_chart', compact('heroku', 'uds', 'db_query','labels'));
     }
 }

@@ -39,6 +39,8 @@ var heroku_d = <?php echo json_encode($heroku['delete']);?>;
 var uds_d = <?php echo json_encode($uds['delete']);?>;
 var query_d = <?php echo json_encode($db_query[3]);?>;
 
+var labels = <?php echo json_encode($labels);?>;
+
 createChart(heroku , uds , query);    
 createChart(heroku_s , uds_s , query_s,'canvas1');    
 createChart(heroku_u , uds_u , query_u,'canvas2');    
@@ -63,7 +65,7 @@ function createChart( heroku , uds , query ,id = 'canvas' ){
     var config = {
       type: 'line',
       data: {
-        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+        labels: labels,
         datasets: [{
           label: "Heroku",
           backgroundColor: chartColors.red,
