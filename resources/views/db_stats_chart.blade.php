@@ -24,12 +24,12 @@ var heroku = <?php echo json_encode($heroku['insert']);?>;
 var uds = <?php echo json_encode($uds['insert']);?>;
 var query = <?php echo json_encode($db_query[0]);?>;
 
-// insert data
+// select data
 var heroku_s = <?php echo json_encode($heroku['select']);?>;
 var uds_s = <?php echo json_encode($uds['select']);?>;
 var query_s = <?php echo json_encode($db_query[1]);?>;
 
-// insert data
+// update data
 var heroku_u = <?php echo json_encode($heroku['update']);?>;
 var uds_u = <?php echo json_encode($uds['update']);?>;
 var query_u = <?php echo json_encode($db_query[2]);?>;

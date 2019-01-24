@@ -141,11 +141,11 @@ class DbStatsController extends Controller
         $heroku['insert'] = DbStats::where('db_id', 1)->where('query', 'like', '%insert%')->pluck('time_taken');
         $heroku['select'] = DbStats::where('db_id', 1)->where('query', 'like', '%select%')->pluck('time_taken');
         $heroku['delete'] = DbStats::where('db_id', 1)->where('query', 'like', '%delete%')->pluck('time_taken');
-        $heroku['update'] = DbStats::where('db_id', 1)->where('query', 'like', '%update%')->pluck('time_taken');
+        $heroku['update'] = DbStats::where('db_id', 1)->where('query', 'like', '%set%')->pluck('time_taken');
         $uds['insert'] = DbStats::where('db_id', 2)->where('query', 'like', '%insert%')->pluck('time_taken');
         $uds['select'] = DbStats::where('db_id', 2)->where('query', 'like', '%select%')->pluck('time_taken');
         $uds['delete'] = DbStats::where('db_id', 2)->where('query', 'like', '%delete%')->pluck('time_taken');
-        $uds['update'] = DbStats::where('db_id', 2)->where('query', 'like', '%update%')->pluck('time_taken');
+        $uds['update'] = DbStats::where('db_id', 2)->where('query', 'like', '%set%')->pluck('time_taken');
         $labels = range(1, count($heroku['insert']));
         return view('db_stats_chart', compact('heroku', 'uds', 'db_query','labels'));
     }
