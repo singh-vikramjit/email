@@ -137,16 +137,20 @@ class DbStatsController extends Controller
     }
 
     public function createDbCharts() {
-        $db_query = array_unique(DbStats::pluck('query')->toArray());
-        $heroku['insert'] = DbStats::where('db_id', 1)->where('query', 'like', '%insert%')->pluck('time_taken');
-        $heroku['select'] = DbStats::where('db_id', 1)->where('query', 'like', '%select%')->pluck('time_taken');
-        $heroku['delete'] = DbStats::where('db_id', 1)->where('query', 'like', '%delete%')->pluck('time_taken');
-        $heroku['update'] = DbStats::where('db_id', 1)->where('query', 'like', '%update%')->pluck('time_taken');
-        $uds['insert'] = DbStats::where('db_id', 2)->where('query', 'like', '%insert%')->pluck('time_taken');
-        $uds['select'] = DbStats::where('db_id', 2)->where('query', 'like', '%select%')->pluck('time_taken');
-        $uds['delete'] = DbStats::where('db_id', 2)->where('query', 'like', '%delete%')->pluck('time_taken');
-        $uds['update'] = DbStats::where('db_id', 2)->where('query', 'like', '%update%')->pluck('time_taken');
-        $labels = range(1, count($heroku['insert']));
-        return view('db_stats_chart', compact('heroku', 'uds', 'db_query','labels'));
+        $test_res = $this->ObjectToArray(DB::select("select time_taken, db_id, query,TRIM(SUBSTR(query,1,POSITION(' ' IN query))) as query_type from db_stats"));
+        $result = $query = [];   
+        foreach ($test_res as $key => $value) {
+            $result[$value['db_id']][$value['query_type']][] = $value['time_taken'];
+            $query[$value['query_type']] = $value['query'];
+        }
+        $_result = json_encode($result) ?? '';
+        $_query = json_encode($query) ?? '';
+        $range = (!empty($result[1]['insert'])) ? count($result[1]['insert']) : 0;
+        $labels = json_encode(range(0, $range));
+        return view('db_stats_chart', compact('labels','_result','_query'));
+    }
+
+    public function ObjectToArray($data){
+        return json_decode(json_encode($data,1),1);
     }
 }

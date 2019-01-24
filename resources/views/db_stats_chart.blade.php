@@ -18,33 +18,14 @@
 </div>
 
 <script>
+var res = {!! $_result !!};
+var _query = {!! $_query !!};
+var labels = {!! $labels !!};
 
-// insert data
-var heroku = <?php echo json_encode($heroku['insert']);?>;
-var uds = <?php echo json_encode($uds['insert']);?>;
-var query = <?php echo json_encode($db_query[0]);?>;
-
-// insert data
-var heroku_s = <?php echo json_encode($heroku['select']);?>;
-var uds_s = <?php echo json_encode($uds['select']);?>;
-var query_s = <?php echo json_encode($db_query[1]);?>;
-
-// insert data
-var heroku_u = <?php echo json_encode($heroku['update']);?>;
-var uds_u = <?php echo json_encode($uds['update']);?>;
-var query_u = <?php echo json_encode($db_query[2]);?>;
-
-// delete data
-var heroku_d = <?php echo json_encode($heroku['delete']);?>;
-var uds_d = <?php echo json_encode($uds['delete']);?>;
-var query_d = <?php echo json_encode($db_query[3]);?>;
-
-var labels = <?php echo json_encode($labels);?>;
-
-createChart(heroku , uds , query);    
-createChart(heroku_s , uds_s , query_s,'canvas1');    
-createChart(heroku_u , uds_u , query_u,'canvas2');    
-createChart(heroku_d , uds_d , query_d,'canvas3');    
+createChart(res[1]['insert'] , res[2]['insert'], _query['insert']);    
+createChart(res[1]['select'] , res[2]['select'], _query['select'],'canvas1');    
+createChart(res[1]['update'] , res[2]['update'], _query['update'],'canvas2');    
+createChart(res[1]['delete'] , res[2]['delete'], _query['delete'],'canvas3');    
 
 function createChart( heroku , uds , query ,id = 'canvas' ){
 
@@ -126,10 +107,8 @@ function createChart( heroku , uds , query ,id = 'canvas' ){
       }
     };
 
-
     var ctx = document.getElementById(id).getContext("2d");
     window.myLine = new Chart(ctx, config);
 }
 </script>
-
 @endsection
