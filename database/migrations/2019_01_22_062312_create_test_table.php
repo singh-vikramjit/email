@@ -21,6 +21,7 @@ class CreateTestTable extends Migration
             $table->boolean('status');
             $table->bigInteger('phone_no');
             $table->timestamps();
+            
         });
     }
 
