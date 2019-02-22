@@ -1,1 +1,1 @@
-just a test for hook
+just a test for hook and migration
