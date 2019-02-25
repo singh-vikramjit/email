@@ -51,8 +51,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->environment('staging')) {
-            $this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
+        if ($this->app->environment(['staging', 'production'])) {
+            //$this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
+            $this->app->register(\Rollbar\Laravel\RollbarServiceProvider::class);
         }
     }
 }
